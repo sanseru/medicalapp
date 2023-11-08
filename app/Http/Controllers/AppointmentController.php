@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -11,7 +12,10 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointments = Appointment::with('user')
+            ->orderBy('id', 'desc')
+            ->paginate(5);
+        return view('appointment', compact('appointments'));
     }
 
     /**
@@ -41,9 +45,9 @@ class AppointmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Appointment $appointment)
     {
-        //
+        return view('editappointment', compact('appointment'));
     }
 
     /**
